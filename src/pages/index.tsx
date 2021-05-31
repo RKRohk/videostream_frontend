@@ -11,30 +11,35 @@ interface ParamsType {
 }
 
 const Index: React.FC = props => {
-  const [owner, setOwner] = useState<boolean>(false);
   const {id} = useParams<ParamsType>()
+  const [owner, setOwner] = useState<boolean>(false);
+  console.log("is I owner?",owner)
   const {name,setName} = useContext(NickNameContext)
 
+
+  const {videoRef,socket} = useVideoPlayer(owner,id);
+  const [show, setShow] = useState<Boolean>(true);
+
   useEffect(() => {
-    const isOwner = localStorage.getItem(id)
+    console.log("useeffect owner", owner)
+    const isOwner =  localStorage.getItem(id) 
     if (isOwner) {
       setOwner(true)
     }
-  },[id])
+  })
 
-  const videoRef = useVideoPlayer(owner,id);
-  const [show, setShow] = useState<Boolean>(true);
   if (!name) return <GetName/>
+
   return (
-    <Flex maxH="fit-content" style={{ position: "relative" }}>
+    <Flex maxH="full" style={{ position: "relative" }}>
       <Box bgColor="black" flex={3}>
           <AspectRatio ratio={16 / 9}>
             <video
               id="videoElement"
-              src="http://localhost:5000/video"
+              src="/video"
               controls={owner}
               ref={videoRef}
-              autoPlay
+              muted={false}
             />
           </AspectRatio>
       </Box>
@@ -48,15 +53,7 @@ const Index: React.FC = props => {
       </div>
       <Box flex={1} hidden={!show}>
         {id}
-        <Chat />
-        <Button
-          onClick={() => {
-            setOwner(!owner);
-          }}
-        >
-          {" "}
-          {owner ? "Owner" : "Not Owner"}{" "}
-        </Button>
+        <Chat socket={socket}/>
       </Box>
     </Flex>
   );

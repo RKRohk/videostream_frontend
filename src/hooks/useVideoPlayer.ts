@@ -1,5 +1,7 @@
-import { useLayoutEffect, useRef } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { io } from "socket.io-client";
+import { NickNameContext } from "../context/namecontext";
+type ArgType = { timestamp?: Number };
 
 let lock = false;
 function unlock() {
@@ -7,26 +9,34 @@ function unlock() {
     lock = false;
   }, 500);
 }
-export const useVideoPlayer = (owner: boolean, id: string) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
 
+
+
+export const useVideoPlayer = (owner: boolean|null, id: string) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const {name} = useContext(NickNameContext)
   const socket = io("http://localhost:5000", {
     reconnectionDelayMax: 10000,
-    query:{
-      room:id
-    }
+    query: {
+      room: id,
+      name: name
+    },
   });
-  socket.connect()
-
+  socket.connect();
   useLayoutEffect(() => {
-    if (owner) {
+    console.log("in effect",owner)
+    if (owner === true) {
       videoRef.current?.addEventListener("pause", (event) => {
-        socket.emit("pause");
+        const videoPlayer = document.getElementById("videoElement") as any;
+        const currentTime = videoPlayer.currentTime;
+        socket.emit("pause", { timestamp: currentTime });
         console.log("paused");
       });
 
       videoRef.current?.addEventListener("play", (event) => {
-        const s = socket.emit("play");
+        const videoPlayer = document.getElementById("videoElement") as any;
+        const currentTime = videoPlayer.currentTime;
+        const s = socket.emit("play", { timestamp: currentTime });
         console.log("played");
       });
 
@@ -42,18 +52,26 @@ export const useVideoPlayer = (owner: boolean, id: string) => {
       // console.log("lock")
     });
 
-    socket.on("pause", () => {
+    socket.on("pause", (args: ArgType) => {
       console.log("got pause");
+      const { timestamp } = args;
+      const videoPlayer = document.getElementById("videoElement") as any;
+
+      videoPlayer.currentTime = timestamp;
       videoRef.current?.pause();
       console.log();
     });
 
-    socket.on("play", () => {
+    socket.on("play", (args: ArgType) => {
       console.log("got play");
+      const { timestamp } = args;
+      const videoPlayer = document.getElementById("videoElement") as any;
+
+      videoPlayer.currentTime = timestamp;
       videoRef.current?.play();
     });
 
-    socket.on("seeked", (args) => {
+    socket.on("seeked", (args: ArgType) => {
       const { timestamp } = args;
       const videoPlayer = document.getElementById("videoElement") as any;
       videoPlayer.currentTime = timestamp;
@@ -61,9 +79,9 @@ export const useVideoPlayer = (owner: boolean, id: string) => {
     });
 
     return () => {
-      socket.disconnect()
-    }
-  }, [owner]);
+      socket.disconnect();
+    };
+  });
 
-  return videoRef;
+  return {videoRef,socket};
 };

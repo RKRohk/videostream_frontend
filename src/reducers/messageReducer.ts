@@ -1,4 +1,4 @@
-enum ActionTypes {
+export enum ActionTypes {
     ACTION,
     MESSAGE
 }
@@ -6,23 +6,24 @@ enum ActionTypes {
 interface Payload {
     by:string,
     message:string
+    type:ActionTypes
 }
 
-type MessageAction = {
+export type MessageAction = {
     type: ActionTypes.MESSAGE,
     payload: Payload
 }
 
-type ActionAction = {
+export type ActionAction = {
     type:ActionTypes.ACTION,
     payload:Payload
 }
 
-type message = Payload
+export type Message = Payload
 
-type State = message[]
+type State = Message[]
 
-const initialState:State = []
+export const initialState:State = []
 
 export const messageReducer = (state:State,action: MessageAction | ActionAction) => {
 
@@ -30,9 +31,11 @@ export const messageReducer = (state:State,action: MessageAction | ActionAction)
 
     switch(type) {
         case ActionTypes.MESSAGE: {
+            payload.type = ActionTypes.MESSAGE
             return state.concat(payload)
         }
         case ActionTypes.ACTION: {
+            payload.type = ActionTypes.ACTION
             return state.concat(payload)
         }
         default:

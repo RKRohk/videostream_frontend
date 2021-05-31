@@ -5,7 +5,8 @@ interface ChatBoxProps {
     message:String
 }
 const ChatBox:React.FC<ChatBoxProps> = (props) => {
-    return <Box px="10" maxW="40" bg="facebook.500" color="whiteAlpha.800" borderRadius="lg" borderWidth="thin" alignSelf="flex-end">
+    const me = props.sender == "me"
+    return <Box px="4" minW="20" maxW="40" bg={ me ? "linkedin.600" : "facebook.800"} color="whiteAlpha.800" borderRadius="lg" borderWidth="thin" alignSelf= { me ?  "flex-end" : "flex-start" }>
         <Text fontSize="x-small">
             {props.sender}
         </Text>

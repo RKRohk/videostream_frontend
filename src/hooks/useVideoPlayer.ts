@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from "react";
-import { socket } from "../webhooks";
+import { io } from "socket.io-client";
 
 let lock = false;
 function unlock() {
@@ -7,21 +7,27 @@ function unlock() {
     lock = false;
   }, 500);
 }
-export const useVideoPlayer = (owner: Boolean) => {
+export const useVideoPlayer = (owner: boolean, id: string) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const socket = io("http://localhost:5000", {
+    reconnectionDelayMax: 10000,
+    query:{
+      room:id
+    }
+  });
+  socket.connect()
 
   useLayoutEffect(() => {
     if (owner) {
       videoRef.current?.addEventListener("pause", (event) => {
-        if (lock) return;
-        const s = socket.emit("pause");
-        console.log(s);
+        socket.emit("pause");
+        console.log("paused");
       });
 
       videoRef.current?.addEventListener("play", (event) => {
-        if (lock) return;
         const s = socket.emit("play");
-        console.log("played")
+        console.log("played");
       });
 
       videoRef.current?.addEventListener("seeked", (event) => {
@@ -39,13 +45,12 @@ export const useVideoPlayer = (owner: Boolean) => {
     socket.on("pause", () => {
       console.log("got pause");
       videoRef.current?.pause();
-      unlock();
+      console.log();
     });
 
     socket.on("play", () => {
       console.log("got play");
       videoRef.current?.play();
-      unlock();
     });
 
     socket.on("seeked", (args) => {
@@ -54,6 +59,10 @@ export const useVideoPlayer = (owner: Boolean) => {
       videoPlayer.currentTime = timestamp;
       unlock();
     });
+
+    return () => {
+      socket.disconnect()
+    }
   }, [owner]);
 
   return videoRef;

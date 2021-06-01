@@ -1,0 +1,11 @@
+.home-enter{
+    margin-left: 110vw;
+    opacity: 0;
+}
+
+.home-active {
+    margin-left: auto;
+    opacity: 1;
+    transition: opacity 200ms;
+}
+

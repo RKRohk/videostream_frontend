@@ -1,8 +1,11 @@
 import { Button } from "@chakra-ui/button";
+import { ChatIcon } from "@chakra-ui/icons";
+import { Input } from "@chakra-ui/input";
 import { Box, Flex } from "@chakra-ui/layout";
 import React, {
   FormEventHandler,
   useContext,
+  useEffect,
   useLayoutEffect,
   useReducer,
   useRef,
@@ -58,7 +61,7 @@ export const Chat: React.FC<ChatProps> = (props) => {
     setMessage("");
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     props.socket.on("message", (args) => {
       const newMessage = args as Message;
       dispatch({ type: newMessage.type, payload: newMessage });
@@ -67,7 +70,7 @@ export const Chat: React.FC<ChatProps> = (props) => {
   }, []);
 
   return (
-    <Box borderWidth="thin" p="1.5">
+    <Box borderColor="black" borderWidth="thin" p="1.5">
       <Box minH="lg" maxH="lg" overflowY="scroll">
         <Flex flexDirection="column">
           {state.map((message) => MakeChat(message))}
@@ -77,13 +80,14 @@ export const Chat: React.FC<ChatProps> = (props) => {
       <Box style={{opacity:"1"}}>
         <form onSubmit={handleSubmit}>
           <Flex justify="space-around">
-            <input
+            <Input
               value={message}
               type="text"
-              style={{ borderWidth: "1px", width: "100%" }}
+              width="max"
+              borderWidth="1px"
               onChange={(e) => setMessage(e.target.value)}
             />
-            <Button type="submit">Send</Button>
+            <Button bgColor="green.300" type="submit"> <ChatIcon/> </Button>
           </Flex>
         </form>
       </Box>

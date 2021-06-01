@@ -15,7 +15,7 @@ function unlock() {
 export const useVideoPlayer = (owner: boolean|null, id: string) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const {name} = useContext(NickNameContext)
-  const socket = io("http://localhost:5000", {
+  const socket = io(process.env.REACT_APP_SERVER ?? "http://localhost:5000", {
     reconnectionDelayMax: 10000,
     query: {
       room: id,

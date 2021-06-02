@@ -17,7 +17,7 @@ const Home = () => {
   const [roomname, setRoomName] = useState("");
   const [nickname, setNickname] = useState("");
   const [url, setUrl] = useState("");
-  const { setName } = useContext(NickNameContext);
+  const { name, setName } = useContext(NickNameContext);
 
   const { isOpen, onToggle } = useDisclosure();
   const history = useHistory()
@@ -45,8 +45,7 @@ const Home = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setUrl(`${process.env.REACT_APP_SERVER}:5000/room/${roomname}`);
-            setName(nickname);
+            setUrl(`${process.env.PUBLIC_URL}:5000/room/${roomname}`);
             localStorage.setItem(roomname, "true");
             history.push(`/room/${roomname}`)
           }}
@@ -64,7 +63,8 @@ const Home = () => {
             <Input
               minW="xl"
               type="text"
-              onChange={(e) => setNickname(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </FormControl>
           <Box>

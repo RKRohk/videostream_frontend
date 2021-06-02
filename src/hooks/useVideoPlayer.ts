@@ -1,6 +1,7 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { NickNameContext } from "../context/namecontext";
+import { ActionTypes, Message } from "../reducers/messageReducer";
 type ArgType = { timestamp?: Number };
 
 let lock = false;
@@ -30,6 +31,9 @@ export const useVideoPlayer = (owner: boolean|null, id: string) => {
         const videoPlayer = document.getElementById("videoElement") as any;
         const currentTime = videoPlayer.currentTime;
         socket.emit("pause", { timestamp: currentTime });
+
+        const message:Message = {by:name,message:`${name} paused the video`,type:ActionTypes.ACTION}
+        socket.emit("message",message)
         console.log("paused");
       });
 

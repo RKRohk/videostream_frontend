@@ -67,7 +67,7 @@ export const Chat: React.FC<ChatProps> = (props) => {
       dispatch({ type: newMessage.type, payload: newMessage });
       scrollToBottom()
     });
-  }, []);
+  }, [props.socket]);
 
   return (
     <Box borderColor="black" borderWidth="thin" p="1.5">

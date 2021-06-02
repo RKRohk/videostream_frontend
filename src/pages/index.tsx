@@ -37,7 +37,7 @@ const Index: React.FC = (props) => {
           <AspectRatio ratio={16 / 9}>
             <video
               id="videoElement"
-              src={`${process.env.REACT_APP_SERVER}/video`}
+              src={`${"http://152.67.11.148:5000"}/video`}
               controls={owner}
               ref={videoRef}
               muted={false}

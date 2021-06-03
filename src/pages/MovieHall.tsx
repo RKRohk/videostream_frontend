@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import {ArrowRightIcon,ArrowLeftIcon} from "@chakra-ui/icons";
-import { AspectRatio, Box, Flex } from "@chakra-ui/layout";
+import { AspectRatio, Box, Flex, Text } from "@chakra-ui/layout";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Chat from "../components/Chat";
@@ -50,14 +50,18 @@ const MovieHall: React.FC = (props) => {
       </Box>
       <Box position="relative">
         <Button
+          borderLeftRadius="xl"
+          borderRightRadius="none"
+          bgColor="green.400"
+          h="28"
           onClick={() => setShow(!show)}
-          style={{top:"50%", position: "absolute", right: "59%" }}
+          style={{top:"48%", position: "absolute", right: "59%" }}
         >
           {show ? <ArrowRightIcon/> : <ArrowLeftIcon/>}
         </Button>
       </Box>
       <Box bgColor="facebook.800" flex={1} hidden={!show}>
-        {id}
+          <Text textColor="white" fontSize="sm" textAlign="center" > Room: {id} </Text>
           <Chat socket={socket} />
       </Box>
     </Flex>

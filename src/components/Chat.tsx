@@ -70,7 +70,7 @@ export const Chat: React.FC<ChatProps> = (props) => {
   }, [props.socket]);
 
   return (
-    <Box borderColor="black" borderWidth="thin" p="1.5">
+    <Box  p="1.5">
       <Box minH="lg" maxH="lg" overflowY="scroll">
         <Flex flexDirection="column">
           {state.map((message) => MakeChat(message))}

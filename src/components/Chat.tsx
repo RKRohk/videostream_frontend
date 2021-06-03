@@ -30,7 +30,7 @@ const MakeChat = (message: Message) => {
   if (message.type == ActionTypes.MESSAGE) {
     return <ChatBox sender={message.by} message={message.message} />;
   } else {
-    return <Event />;
+    return <Event message={message.message} />;
   }
 };
 
@@ -64,6 +64,7 @@ export const Chat: React.FC<ChatProps> = (props) => {
   useEffect(() => {
     props.socket.on("message", (args) => {
       const newMessage = args as Message;
+      console.log(newMessage)
       dispatch({ type: newMessage.type, payload: newMessage });
       scrollToBottom()
     });

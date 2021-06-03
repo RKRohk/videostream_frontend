@@ -1,8 +1,10 @@
 import { Box,Text } from "@chakra-ui/layout"
-
-const Event:React.FC = () => {
+interface EventType{
+    message:string
+}
+const Event:React.FC<EventType> = (props) => {
     return <Text textColor="white" textAlign="center" as="i">
-            {"Rohan paused the video"}
+            {props.message}
         </Text>
 }
 

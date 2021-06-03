@@ -41,6 +41,10 @@ export const useVideoPlayer = (owner: boolean|null, id: string) => {
         const videoPlayer = document.getElementById("videoElement") as any;
         const currentTime = videoPlayer.currentTime;
         const s = socket.emit("play", { timestamp: currentTime });
+
+        const message:Message = {by:name,message:`${name} played the video`,type:ActionTypes.ACTION}
+        socket.emit("message",message)
+
         console.log("played");
       });
 
@@ -49,6 +53,9 @@ export const useVideoPlayer = (owner: boolean|null, id: string) => {
         const videoPlayer = document.getElementById("videoElement") as any;
         const currentTime = videoPlayer.currentTime;
         socket.emit("seeked", { timestamp: currentTime });
+
+        const message:Message = {by:name,message:`${name} seeked the video`,type:ActionTypes.ACTION}
+        socket.emit("message",message)
       });
     }
     socket.onAny(() => {

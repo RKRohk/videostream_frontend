@@ -84,6 +84,7 @@ export const Chat: React.FC<ChatProps> = (props) => {
               value={message}
               type="text"
               width="max"
+              textColor="white"
               borderWidth="1px"
               onChange={(e) => setMessage(e.target.value)}
             />

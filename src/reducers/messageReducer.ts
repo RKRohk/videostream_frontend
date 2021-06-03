@@ -39,6 +39,6 @@ export const messageReducer = (state:State,action: MessageAction | ActionAction)
             return state.concat(payload)
         }
         default:
-            return state
+            throw Error("Invalid")
     }
 }

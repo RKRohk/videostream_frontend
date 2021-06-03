@@ -12,6 +12,7 @@ import BG from "../pages/home_bg.jpg";
 import { useHistory } from "react-router";
 import axios from "axios";
 import { Select } from "@chakra-ui/select";
+import { SERVER_URL } from "../constants";
 
 
 const Home = () => {
@@ -28,7 +29,7 @@ const Home = () => {
 
   const getVideos = async () => {
     try{
-      const response = await axios.get("http://localhost:5000/videos")
+      const response = await axios.get(`${SERVER_URL}/videos`)
       const videosFromServer = response.data
       console.log(response.data)
       setVideos(videosFromServer)
@@ -68,7 +69,7 @@ const Home = () => {
             e.preventDefault();
 
             try {
-              const response = await axios.post("http://localhost:5000/room",{video})
+              const response = await axios.post(`${SERVER_URL}/room`,{video})
               const {room} = response.data
               console.log(response.data)
               setUrl(`${process.env.PUBLIC_URL}:3000/room/${room.name}`);

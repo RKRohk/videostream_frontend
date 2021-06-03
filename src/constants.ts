@@ -1,0 +1,1 @@
+export const SERVER_URL = process.env.REACT_APP_BACKEND ?? "http://localhost:5000"

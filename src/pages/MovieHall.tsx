@@ -4,6 +4,7 @@ import { AspectRatio, Box, Flex, Text } from "@chakra-ui/layout";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Chat from "../components/Chat";
+import { SERVER_URL } from "../constants";
 import { NickNameContext } from "../context/namecontext";
 import { useVideoPlayer } from "../hooks/useVideoPlayer";
 import GetName from "./GetName";
@@ -39,7 +40,7 @@ const MovieHall: React.FC = (props) => {
           <AspectRatio ratio={16 / 9}>
             <video
               id="videoElement"
-              src={`${"http://localhost:5000"}/room/${id}`}
+              src={`${SERVER_URL}/room/${id}`}
               controls={owner}
               ref={videoRef}
               muted={false}

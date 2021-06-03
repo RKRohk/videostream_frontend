@@ -1,5 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { io } from "socket.io-client";
+import { SERVER_URL } from "../constants";
 import { NickNameContext } from "../context/namecontext";
 import { ActionTypes, Message } from "../reducers/messageReducer";
 type ArgType = { timestamp?: Number };
@@ -16,7 +17,7 @@ function unlock() {
 export const useVideoPlayer = (owner: boolean|null, id: string) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const {name} = useContext(NickNameContext)
-  const socket = io("http://152.67.11.148:5000", {
+  const socket = io(`${SERVER_URL}`, {
     reconnectionDelayMax: 10000,
     query: {
       room: id,

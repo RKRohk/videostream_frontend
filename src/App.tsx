@@ -2,7 +2,7 @@ import { ChakraProvider, DarkMode } from "@chakra-ui/react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import {NickNameContext} from "./context/namecontext"
 import "./App.css";
-import Index from "./pages";
+import MovieHall from "./pages/MovieHall";
 import Home from "./pages/Home";
 import { useState } from "react";
 
@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/room/:id">
-            <Index />
+            <MovieHall />
           </Route>
           <Route path="/">
             <Home/>

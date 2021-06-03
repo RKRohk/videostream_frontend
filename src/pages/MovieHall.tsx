@@ -11,11 +11,13 @@ interface ParamsType {
   id: string;
 }
 
-const Index: React.FC = (props) => {
+const MovieHall: React.FC = (props) => {
   const { id } = useParams<ParamsType>();
   const [owner, setOwner] = useState<boolean>(false);
   console.log("is I owner?", owner);
   const { name } = useContext(NickNameContext);
+
+  const room = id
 
   const { videoRef, socket } = useVideoPlayer(owner, id);
   const [show, setShow] = useState<Boolean>(true);
@@ -37,7 +39,7 @@ const Index: React.FC = (props) => {
           <AspectRatio ratio={16 / 9}>
             <video
               id="videoElement"
-              src={`${"http://152.67.11.148:5000"}/video`}
+              src={`${"http://localhost:5000"}/room/${id}`}
               controls={owner}
               ref={videoRef}
               muted={false}
@@ -56,10 +58,10 @@ const Index: React.FC = (props) => {
       </Box>
       <Box bgColor="facebook.800" flex={1} hidden={!show}>
         {id}
-        <Chat socket={socket} />
+          <Chat socket={socket} />
       </Box>
     </Flex>
   );
 };
 
-export default Index;
+export default MovieHall;

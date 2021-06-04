@@ -29,7 +29,7 @@ const MovieHall: React.FC = (props) => {
     if (isOwner) {
       setOwner(true);
     }
-  });
+  },[owner,id]);
 
   if (!name) return <GetName />;
 
@@ -44,8 +44,12 @@ const MovieHall: React.FC = (props) => {
               controls={owner}
               ref={videoRef}
               muted={false}
+              crossOrigin="anonymous"
               playsInline
-            />
+            >
+              <track style={{height:"10rem"}} kind="subtitles" srcLang="en" src={`${SERVER_URL}/subs/${id}`} default/>
+              </video>
+
           </AspectRatio>
         </Box>
       </Box>

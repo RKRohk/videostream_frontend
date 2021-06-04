@@ -26,7 +26,9 @@ export const useVideoPlayer = (owner: boolean|null, id: string) => {
   });
   socket.connect();
   useLayoutEffect(() => {
+
     console.log("in effect",owner)
+
     if (owner === true) {
       videoRef.current?.addEventListener("pause", (event) => {
         const videoPlayer = document.getElementById("videoElement") as any;

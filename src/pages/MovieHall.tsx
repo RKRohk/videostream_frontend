@@ -48,8 +48,8 @@ const MovieHall: React.FC = (props) => {
               playsInline
             >
               <track style={{height:"10rem"}} kind="subtitles" srcLang="en" src={`${SERVER_URL}/subs/${id}`} default/>
-              </video>
-
+            </video>
+            
           </AspectRatio>
         </Box>
       </Box>

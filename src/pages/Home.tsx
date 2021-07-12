@@ -45,7 +45,7 @@ const Home = () => {
 
   useLayoutEffect(() => {
     onToggle();
-  }, [onToggle]);
+  }, []);
 
   return (
     <Flex

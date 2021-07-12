@@ -4,7 +4,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install
 COPY . .
-ARG REACT_APP_BACKEND=http://152.67.11.148:5000
+ARG REACT_APP_BACKEND=http://139.59.27.253:5000
 ENV REACT_APP_BACKEND=${REACT_APP_BACKEND}
 RUN yarn build
 

@@ -1,0 +1,38 @@
+- name: Deploy
+  hosts: digitalocean
+  remote_user: root
+
+  vars:
+    host_ip: http://139.59.27.253:5000
+
+  tasks:
+    - name: kill frontend
+      docker_container:
+        name: frontend
+        state: absent
+
+    - name: Deploy frontend
+      docker_container:
+        name: frontend
+        image: rkrohk/videostream_frontend:forserver
+        pull: true
+        env:
+            REACT_APP_SERVER: "{{ host_ip }}"
+        ports:
+          - 3000:5000
+
+    - name: kill backend
+      docker_container:
+        name: backend
+        state: absent
+
+    - name: Deploy backend
+      docker_container:
+        name: backend
+        image: rkrohk/videostream:tryout
+        pull: true
+        volumes:
+          - /root/videos:/app/videos
+
+        ports:
+          - 5000:5000

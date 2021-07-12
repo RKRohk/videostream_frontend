@@ -3,9 +3,12 @@ pipeline {
         docker { image 'node:14-alpine' }
     }
     stages {
-        stage('Test') {
+        stage('Pull') {
+            scm checkout
+        }
+        stage('Build') {
             steps {
-                sh 'node --version'
+              step([$class: 'DockerBuilderPublisher', cleanImages: false, cleanupWithJenkinsJobDelete: false, cloud: 'docker', dockerFileDirectory: '.', fromRegistry: [], pushCredentialsId: 'dockerrohan', pushOnSuccess: true, tagsString: 'rkrohk/videostream_frontend:fromcd'])
             }
         }
     }

@@ -1,6 +1,7 @@
 {
   "name": "videostream_frontend",
   "version": "0.1.0",
+  "proxy": "http://localhost:80",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
@@ -15,6 +16,7 @@
     "@types/react": "^17.0.8",
     "@types/react-dom": "^17.0.5",
     "@types/socket.io-client": "^3.0.0",
+    "@types/video.js": "^7.3.26",
     "axios": "^0.21.1",
     "framer-motion": "^4",
     "react": "^17.0.2",
@@ -22,12 +24,15 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.2",
+    "shaka-player-react": "^1.1.2",
     "socket.io-client": "^4.1.2",
     "typescript": "^4.3.2",
+    "video.js": "^7.14.3",
+    "videojs-shaka": "^1.1.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export NODE_ENV=development && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "serve": "serve -s build",
@@ -54,6 +59,8 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
     "@types/react-transition-group": "^4.4.1",
-    "serve": "^11.3.2"
+    "miragejs": "^0.1.41",
+    "serve": "^11.3.2",
+    "shaka-player": "^3.2.0"
   }
 }

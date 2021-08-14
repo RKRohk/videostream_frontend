@@ -5,6 +5,14 @@ import "./App.css";
 import MovieHall from "./pages/MovieHall";
 import Home from "./pages/Home";
 import { useState } from "react";
+import { makeServer } from "./mirage/mirage";
+
+
+
+if(process.env.NODE_ENV === 'development') {
+  makeServer({environment:"development"})
+}
+
 
 function App() {
   const [nickname,setNickName] = useState("")
@@ -13,7 +21,7 @@ function App() {
       <NickNameContext.Provider value={{name:nickname,setName:(value:string) => setNickName(value)}}>
       <BrowserRouter>
         <Switch>
-          <Route path="/room/:id">
+          <Route path="/api/room/:id">
             <MovieHall />
           </Route>
           <Route path="/">

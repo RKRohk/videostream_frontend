@@ -1,11 +1,20 @@
 import { Button } from "@chakra-ui/button";
-import {ArrowRightIcon,ArrowLeftIcon} from "@chakra-ui/icons";
+import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
 import { AspectRatio, Box, Flex, Text } from "@chakra-ui/layout";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Chat from "../components/Chat";
+
 import { NickNameContext } from "../context/namecontext";
 import { useVideoPlayer } from "../hooks/useVideoPlayer";
+import React from 'react';
+
+
+//@ts-ignore
+import ShakaPlayer from 'shaka-player-react';
+import 'shaka-player/dist/controls.css';
+
+
 import GetName from "./GetName";
 interface ParamsType {
   id: string;
@@ -18,6 +27,17 @@ const MovieHall: React.FC = (props) => {
   const { name } = useContext(NickNameContext);
 
   const room = id
+
+  const videoJsOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    sources: [{
+      src: "/sample-manifest.mpd",
+      type: "application/dash+xml"
+    }]
+  }
 
   const { videoRef, socket } = useVideoPlayer(owner, id);
   const [show, setShow] = useState<Boolean>(true);
@@ -36,16 +56,9 @@ const MovieHall: React.FC = (props) => {
     <Flex bgColor="black" style={{ height: "100vh", position: "relative" }}>
       <Box my="auto" bgColor="black" flex={3}>
         <Box w="full" bgColor="blue">
-          <AspectRatio ratio={16 / 9}>
-            <video
-              id="videoElement"
-              src={`${"http://localhost:5000"}/room/${id}`}
-              controls={owner}
-              ref={videoRef}
-              muted={false}
-              playsInline
-            />
-          </AspectRatio>
+            <AspectRatio ratio={16/9}>
+              <ShakaPlayer src={videoJsOptions.sources[0].src} />
+            </AspectRatio>
         </Box>
       </Box>
       <Box position="relative">
@@ -55,14 +68,14 @@ const MovieHall: React.FC = (props) => {
           bgColor="green.400"
           h="28"
           onClick={() => setShow(!show)}
-          style={{top:"48%", position: "absolute", right: "59%" }}
+          style={{ top: "48%", position: "absolute", right: "59%" }}
         >
-          {show ? <ArrowRightIcon/> : <ArrowLeftIcon/>}
+          {show ? <ArrowRightIcon /> : <ArrowLeftIcon />}
         </Button>
       </Box>
       <Box bgColor="facebook.800" flex={1} hidden={!show}>
-          <Text textColor="white" fontSize="sm" textAlign="center" > Room: {id} </Text>
-          <Chat socket={socket} />
+        <Text textColor="white" fontSize="sm" textAlign="center" > Room: {id} </Text>
+        <Chat socket={socket} />
       </Box>
     </Flex>
   );

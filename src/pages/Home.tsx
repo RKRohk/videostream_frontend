@@ -22,13 +22,13 @@ const Home = () => {
   const { isOpen, onToggle } = useDisclosure();
   const history = useHistory()
 
-  //videos is list of videos from server
+  //api/videos is list of videos from server
   const [videos,setVideos] = useState<string[]>([])
   const [video,setVideo] = useState<string>()
 
   const getVideos = async () => {
     try{
-      const response = await axios.get("http://localhost:5000/videos")
+      const response = await axios.get("/api/videos")
       const videosFromServer = response.data
       console.log(response.data)
       setVideos(videosFromServer)
@@ -68,12 +68,12 @@ const Home = () => {
             e.preventDefault();
 
             try {
-              const response = await axios.post("http://localhost:5000/room",{video})
+              const response = await axios.post("/api/room",{video})
               const {room} = response.data
               console.log(response.data)
-              setUrl(`${process.env.PUBLIC_URL}:3000/room/${room.name}`);
+              setUrl(`${process.env.PUBLIC_URL}:3000/api/room/${room.name}`);
               localStorage.setItem(room.name, "true");
-              history.push(`/room/${room.name}`)
+              history.push(`/api/room/${room.name}`)
             }
             catch(e){
               console.error(e)
